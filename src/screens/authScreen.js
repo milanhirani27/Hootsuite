@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import Index from '../components/ImageComponent';
 import {
@@ -13,11 +14,13 @@ import {
   widthPercentageToDP as wp,
 } from '../helper/responsiveScreen';
 
-const AuthScreen = () => {
+const AuthScreen = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
+
+  const {isLogin} = route.params;
 
   const getMessage = () => {
     const status = isError ? 'Error: ' : 'Success: ';
@@ -25,7 +28,7 @@ const AuthScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor: 'white', flex: 1}}>
       <Index />
       <View
         style={{
@@ -33,7 +36,7 @@ const AuthScreen = () => {
           justifyContent: 'center',
           paddingVertical: hp(1.5),
         }}>
-        <Text style={{fontSize: 21}}>Sign up for Hootsuite account</Text>
+        <Text style={{fontSize: 21}}>{isLogin ? "Sign in" :"Sign up"} for Hootsuite account</Text>
       </View>
       <View style={styles.signupContainer}>
         <Text style={styles.label}>Email</Text>
@@ -66,9 +69,13 @@ const AuthScreen = () => {
         <Text style={[styles.message, {color: isError ? 'red' : 'green'}]}>
           {message ? getMessage() : null}
         </Text>
-        <View style={styles.buttonContainer}>
-          <Button title="Sign up" color="black" />
-        </View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => {
+            navigation.navigate('SocialAuth');
+          }}>
+          <Text style={{fontSize: 18}}> {isLogin ? 'Sign in' : 'Sign up'}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -85,7 +92,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: hp(2),
-    backgroundColor: '#ffac1c',
+    backgroundColor: '#fba919',
+    width: '100%',
+    marginBottom: wp(3),
+    alignItems: 'center',
+    height: hp(4),
+    justifyContent: 'center',
   },
   signupContainer: {
     marginHorizontal: wp(10),

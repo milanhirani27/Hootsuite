@@ -19,6 +19,10 @@ target 'Hootsuite' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-login-twitter', :path => '../node_modules/react-native-login-twitter'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'HootsuiteTests' do
     inherit! :complete
     # Pods for testing

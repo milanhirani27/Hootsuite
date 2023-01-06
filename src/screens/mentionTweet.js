@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, Image} from 'react-native';
-import {getAllTweets} from '../redux/Action/twitter';
+import {getMentionTweets} from '../redux/Action/twitter';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -8,23 +8,25 @@ import {
   widthPercentageToDP as wp,
 } from '../helper/responsiveScreen';
 
-const tweetScreen = ({route, navigation}) => {
+const mentionTweetScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
-  const getTweets = useSelector(state => state.getTweets.getTweets.data);
+  const mentionTweets = useSelector(state => state.getTweets.mentionTweets.data);
   const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
 
   useEffect(() => {
+    console.log('--------mention tweet', mentionTweets.data);
     AsyncStorage.getItem('TwitterData').then(res => {
       const userId = JSON.parse(res).userID;
       const userName = JSON.parse(res).userName;
       setUserID(userId);
       setUsername(userName);
     });
-    dispatch(getAllTweets(userID));
+    dispatch(getMentionTweets(userID));
   }, [userID]);
 
   const renderItem = ({item}) => {
+    console.log('item--------render', item);
     return (
       <View
         style={{
@@ -34,6 +36,8 @@ const tweetScreen = ({route, navigation}) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
+          // backgroundColor:'green',
+          // marginVertical:3
         }}>
         <View style={{backgroundColor: 'blue'}}>
           <Image
@@ -62,10 +66,10 @@ const tweetScreen = ({route, navigation}) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Text style={{fontSize: 18}}>MY TWEETS {username}</Text>
+        <Text style={{fontSize: 18}}>MY MENTION TWEETS {username}</Text>
       </View>
       <FlatList
-        data={getTweets.data}
+        data={mentionTweets.data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
@@ -73,4 +77,4 @@ const tweetScreen = ({route, navigation}) => {
   );
 };
 
-export default tweetScreen;
+export default mentionTweetScreen;

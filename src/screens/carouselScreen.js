@@ -9,7 +9,7 @@ import {
   widthPercentageToDP as wp,
 } from '../helper/responsiveScreen';
 
-const CarouselScreen = () => {
+const CarouselScreen = ({navigation}) => {
   const isCarousel = React.useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
   return (
@@ -59,7 +59,12 @@ const CarouselScreen = () => {
             alignItems: 'center',
             height: hp(4),
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={() =>
+            navigation.navigate('AuthScreen', {
+              isLogin: true,
+            })
+          }>
           <Text style={{fontSize: 18}}>{'I already have an account'}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -69,7 +74,12 @@ const CarouselScreen = () => {
             alignItems: 'center',
             height: hp(4),
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={() =>
+            navigation.navigate('AuthScreen', {
+              isLogin: false,
+            })
+          }>
           <Text style={{fontSize: 18}}>{"I don't have an account"}</Text>
         </TouchableOpacity>
       </View>
