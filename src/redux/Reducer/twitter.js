@@ -1,7 +1,8 @@
-import {GET_MENTION_TWEETS, GET_TWEETS} from '../types';
+import {GET_MENTION_TWEETS, GET_TWEETS, POST_TWEETS} from '../types';
 const INITIAL_STATE = {
   getTweets: '',
   mentionTweets: '',
+  pTweets: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,6 +17,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         mentionTweets: action.payload,
+      };
+    }
+    case POST_TWEETS: {
+      return {
+        ...state,
+        pTweets: action.payload,
       };
     }
     default:

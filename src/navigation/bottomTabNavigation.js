@@ -5,13 +5,15 @@ import Ionicons from 'react-native-vector-icons/Octicons';
 import Icon from 'react-native-vector-icons/Feather';
 import LogOut from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
-
+import sendTweetScreen from '../screens/sendTweetScreen';
+import PostTweet from 'react-native-vector-icons/MaterialIcons';
 const Tab = createBottomTabNavigator();
 
 const bottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        headerShown: false,
         headerRight: ({size, color}) => (
           <TouchableOpacity
             onPress={() => {
@@ -34,11 +36,15 @@ const bottomTabNavigator = () => {
           } else if (route?.name === 'mTweets') {
             iconName = focused ? 'mention' : 'mention';
             return <Ionicons name={iconName} size={size} color={color} />;
+          } else if (route?.name === 'sTweets') {
+            iconName = focused ? 'post-add' : 'post-add';
+            return <PostTweet name={iconName} size={size} color={color} />;
           }
         },
       })}>
       <Tab.Screen name="tweets" component={tweetScreen} />
       <Tab.Screen name="mTweets" component={mentionTweetScreen} />
+      <Tab.Screen name={'sTweets'} component={sendTweetScreen} />
     </Tab.Navigator>
   );
 };

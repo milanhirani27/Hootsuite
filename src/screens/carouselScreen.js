@@ -12,6 +12,8 @@ import {
 const CarouselScreen = ({navigation}) => {
   const isCarousel = React.useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
+
+  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
   return (
     <View
       style={{
@@ -29,7 +31,7 @@ const CarouselScreen = ({navigation}) => {
           data={data}
           renderItem={CarouselCardItem}
           sliderWidth={SLIDER_WIDTH}
-          itemWidth={'294'}
+          itemWidth={ITEM_WIDTH}
           inactiveSlideShift={0}
           onSnapToItem={index => setActiveSlide(index)}
           useScrollView={true}

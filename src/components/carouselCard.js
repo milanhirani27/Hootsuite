@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     width: wp(80),
   },
   image: {
-    width: '100',
     height: hp(38),
   },
   body: {

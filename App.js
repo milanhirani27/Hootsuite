@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigation from './src/navigation/appNavigation';
@@ -9,7 +9,8 @@ import rootReducer from './src/redux/Reducer/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import BottomTabNavigation from './src/navigation/bottomTabNavigation';
 
 const persistConfig = {
@@ -24,6 +25,10 @@ let persistor = persistStore(store);
 const App = () => {
   LogBox.ignoreLogs(['Warning: ...']);
   LogBox.ignoreAllLogs();
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
 
   return (
     <Provider store={store}>
