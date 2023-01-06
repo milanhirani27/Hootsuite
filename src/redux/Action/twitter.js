@@ -1,4 +1,4 @@
-import { GET_MENTION_TWEETS, GET_TWEETS } from "../types";
+import {GET_MENTION_TWEETS, GET_TWEETS, POST_TWEETS} from '../types';
 import axios from 'axios';
 
 export const getAllTweets = userID => {
@@ -47,6 +47,27 @@ export const getMentionTweets = userID => {
       })
       .catch(error => {
         console.log('error in mention tweets', error);
+      });
+  };
+};
+
+export const postTweets = payLoad => {
+  return async dispatch => {
+    axios
+      .post('http://localhost:3000/postTweet', payLoad, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(async response => {
+        console.log('res in post tweets', response);
+        dispatch({
+          type: POST_TWEETS,
+          payload: response.data.text,
+        });
+      })
+      .catch(error => {
+        console.log('error in post tweets', error);
       });
   };
 };

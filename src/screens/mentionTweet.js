@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, Image} from 'react-native';
-import {getMentionTweets} from '../redux/Action/twitter';
+import { getAllTweets, getMentionTweets } from "../redux/Action/twitter";
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../helper/responsiveScreen';
+import { useIsFocused } from "@react-navigation/native";
 
 const mentionTweetScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const mentionTweets = useSelector(state => state.getTweets.mentionTweets.data);
   const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
+  const [mTweet, setMTweet] = useState(mentionTweets);
 
   useEffect(() => {
-    console.log('--------mention tweet', mentionTweets.data);
     AsyncStorage.getItem('TwitterData').then(res => {
       const userId = JSON.parse(res).userID;
       const userName = JSON.parse(res).userName;
@@ -24,6 +26,11 @@ const mentionTweetScreen = ({route, navigation}) => {
     });
     dispatch(getMentionTweets(userID));
   }, [userID]);
+
+  useEffect(() => {
+    setMTweet(mentionTweets);
+    dispatch(getMentionTweets(userID));
+  }, [isFocused]);
 
   const renderItem = ({item}) => {
     console.log('item--------render', item);
@@ -69,7 +76,7 @@ const mentionTweetScreen = ({route, navigation}) => {
         <Text style={{fontSize: 18}}>MY MENTION TWEETS {username}</Text>
       </View>
       <FlatList
-        data={mentionTweets.data}
+        data={mTweet.data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
@@ -17,11 +16,11 @@ import {
 
 const sendTweetScreen = () => {
   const dispatch = useDispatch();
-  const [status, setStatus] = useState('');
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
   const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
+  const [tweetText, setTweetText] = useState('');
 
   useEffect(() => {
     AsyncStorage.getItem('TwitterData').then(res => {
@@ -38,12 +37,10 @@ const sendTweetScreen = () => {
   };
 
   const postTweetsPress = () => {
-    debugger
     const postTweetPayLoad = {
-      status,
+      status: tweetText,
     };
-    debugger
-    dispatch(postTweets(JSON.stringify(postTweetPayLoad)));
+    dispatch(postTweets(postTweetPayLoad));
   };
 
   return (
@@ -63,24 +60,22 @@ const sendTweetScreen = () => {
         id="status"
         label="Tweet"
         required
-        onChangeText={setStatus}
+        onChangeText={val => setTweetText(val)}
         autoCapitalize="none"
         errorText="Please enter a valid tweet."
-        initialValue=""
+        value={tweetText}
       />
       <Text style={[styles.message, {color: isError ? 'red' : 'green'}]}>
         {message ? getMessage() : null}
       </Text>
       <TouchableOpacity
         style={styles.buttonContainer}
-        onPress={() => postTweetsPress}>
+        onPress={() => {
+          postTweetsPress();
+          setTweetText('');
+        }}>
         <Text style={{color: 'black', fontSize: 18}}>Send Tweet</Text>
       </TouchableOpacity>
-      {/*<View style={styles.buttonsignup}>*/}
-      {/*  <Button title='Send Tweet' color='black'*/}
-      {/*          onPress={onSubmitHandler}*/}
-      {/*  />*/}
-      {/*</View>*/}
     </View>
   );
 };

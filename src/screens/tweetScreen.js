@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, Image} from 'react-native';
+import {View, Text, FlatList, Image, Alert} from 'react-native';
 import {getAllTweets} from '../redux/Action/twitter';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,12 +7,15 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../helper/responsiveScreen';
+import {useIsFocused} from '@react-navigation/native';
 
 const tweetScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const getTweets = useSelector(state => state.getTweets.getTweets.data);
   const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
+  const [tweet, setTweet] = useState(getTweets);
 
   useEffect(() => {
     AsyncStorage.getItem('TwitterData').then(res => {
@@ -23,6 +26,13 @@ const tweetScreen = ({route, navigation}) => {
     });
     dispatch(getAllTweets(userID));
   }, [userID]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setTweet(getTweets);
+      dispatch(getAllTweets(userID));
+    }
+  }, [isFocused]);
 
   const renderItem = ({item}) => {
     return (
@@ -65,7 +75,7 @@ const tweetScreen = ({route, navigation}) => {
         <Text style={{fontSize: 18}}>MY TWEETS {username}</Text>
       </View>
       <FlatList
-        data={getTweets.data}
+        data={tweet.data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
