@@ -4,9 +4,11 @@ import mentionTweetScreen from '../screens/mentionTweet';
 import Ionicons from 'react-native-vector-icons/Octicons';
 import Icon from 'react-native-vector-icons/Feather';
 import LogOut from 'react-native-vector-icons/AntDesign';
+import Profile from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
 import sendTweetScreen from '../screens/sendTweetScreen';
 import PostTweet from 'react-native-vector-icons/MaterialIcons';
+import profileScreen from "../screens/profileScreen";
 const Tab = createBottomTabNavigator();
 
 const bottomTabNavigator = () => {
@@ -39,12 +41,16 @@ const bottomTabNavigator = () => {
           } else if (route?.name === 'sTweets') {
             iconName = focused ? 'post-add' : 'post-add';
             return <PostTweet name={iconName} size={size} color={color} />;
+          } else if (route?.name === 'profile') {
+            iconName = focused ? 'profile' : 'profile';
+            return <Profile name={iconName} size={size} color={color} />;
           }
         },
       })}>
       <Tab.Screen name="tweets" component={tweetScreen} />
       <Tab.Screen name="mTweets" component={mentionTweetScreen} />
       <Tab.Screen name={'sTweets'} component={sendTweetScreen} />
+      <Tab.Screen name={'profile'} component={profileScreen} />
     </Tab.Navigator>
   );
 };
