@@ -52,7 +52,10 @@ const sendTweetScreen = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Text style={{fontSize: 18}}>MY POST TWEETS {username}</Text>
+        <Text style={{fontSize: 20, fontWeight: '700'}}>MY POST TWEETS {username}</Text>
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
       </View>
       <Text style={styles.label}>Send Tweet:</Text>
       <TextInput

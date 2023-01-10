@@ -8,12 +8,16 @@ import Profile from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
 import sendTweetScreen from '../screens/sendTweetScreen';
 import PostTweet from 'react-native-vector-icons/MaterialIcons';
-import profileScreen from "../screens/profileScreen";
+import profileScreen from '../screens/profileScreen';
+import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
+
 const Tab = createBottomTabNavigator();
+// const Tab = AnimatedTabBarNavigator();
 
 const bottomTabNavigator = () => {
   return (
     <Tab.Navigator
+
       screenOptions={({route}) => ({
         headerShown: false,
         headerRight: ({size, color}) => (
@@ -29,6 +33,8 @@ const bottomTabNavigator = () => {
             />
           </TouchableOpacity>
         ),
+        tabBarActiveTintColor:"black",
+        tabBarInactiveTintColor:"gray",
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
 
